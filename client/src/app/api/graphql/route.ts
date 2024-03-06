@@ -9,20 +9,22 @@ import resolvers from '@/graphql/resolvers';
 import { connectToDB } from '@/lib/database';
 
 
+
 interface ContextValue {
   token: string;
   dataSources: {
-    mongodb: void;
+    mongodb: Awaited<ReturnType<typeof connectToDB>>;
   };
 }
-const server = new ApolloServer<ContextValue>({
+
+const server = new ApolloServer({
   resolvers,
   typeDefs,
 });
 
-const handler = startServerAndCreateNextHandler<NextRequest>(server as ApolloServer<object>, {
+const handler = startServerAndCreateNextHandler<NextRequest>(server, {
   context: async (req): Promise<ContextValue> => {
-    console.log('🚀 Apollo starts')
+    console.log('🚀 Apollo SERVER starts')
     const token = "token";
     return {
       token,
@@ -31,6 +33,7 @@ const handler = startServerAndCreateNextHandler<NextRequest>(server as ApolloSer
       },
     };
   },
+
 });
 
 export { handler as GET, handler as POST };

@@ -1,8 +1,28 @@
-import { ApolloClient, InMemoryCache } from "@apollo/client"
+import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client'
+// import { headers } from 'next/headers'
 
-const client = new ApolloClient({
-  uri: "http://localhost:3000/api/graphql",
-  cache: new InMemoryCache(),
-})
 
-export default client
+let client:any;
+
+export const getClient = ():ApolloClient<any>=> {
+  // const headersInstance = headers()
+  const httpLink = new HttpLink({
+    uri: 'http://localhost:3000/api/graphql',
+    headers: {
+      cookie: ''
+    }
+  })
+
+  /* Create a new client if there's no existing one
+     or if we are running on the server. */
+  if (!client) {
+    console.log('🚀 Apollo CLIENT starts');
+    client = new ApolloClient({
+      link: httpLink,
+      cache: new InMemoryCache(),
+      credentials: 'include'
+    })
+  }
+
+  return client
+}

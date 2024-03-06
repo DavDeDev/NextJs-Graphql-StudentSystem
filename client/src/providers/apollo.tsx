@@ -1,11 +1,11 @@
 "use client"
 
 import { ApolloProvider } from "@apollo/client"
-import client from "@/graphql/client";
+import {getClient} from "@/graphql/client";
 
 
 export const ApolloProviders = ({ children }: Readonly<{ children: React.ReactNode }>) => (
-  <ApolloProvider client={client}>
+  <ApolloProvider client={getClient()}>
     {children}
   </ApolloProvider>
 )
