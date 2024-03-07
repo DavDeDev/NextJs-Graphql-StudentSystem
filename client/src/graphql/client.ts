@@ -2,7 +2,7 @@ import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client'
 // import { headers } from 'next/headers'
 
 
-let client:any;
+let client:  ApolloClient<any> | null = null;
 
 export const getClient = ():ApolloClient<any>=> {
   // const headersInstance = headers()
