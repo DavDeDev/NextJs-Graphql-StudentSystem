@@ -1,9 +1,9 @@
 import mongoose, { Schema, Document, InferSchemaType, Models, Model } from 'mongoose';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { SALT_ROUNDS } from '../lib/constant';
 
 
-interface IUser extends Document {
+export interface IUser extends Document {
   email: string;
   password: string;
   name: string;
@@ -14,7 +14,7 @@ interface IUserMethods {
   comparePassword(password: string): Promise<boolean>;
 
 }
-export type UserModel = Model<IUser, {}, IUserMethods>;
+type UserModel = Model<IUser, {}, IUserMethods>;
 const userSchema = new Schema<IUser, UserModel, IUserMethods>({
   email: {
     type: String,
@@ -53,6 +53,6 @@ userSchema.method('comparePassword', function (password: string): Promise<boolea
 
 
 
-const User: UserModel = mongoose.models.User || mongoose.model<UserModel>('User', userSchema, 'users');
+const User: UserModel = mongoose.models?.User ?? mongoose.model<UserModel>('User', userSchema, 'users');
 
 export { User };

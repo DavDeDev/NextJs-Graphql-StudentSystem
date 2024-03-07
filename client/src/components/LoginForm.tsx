@@ -45,7 +45,8 @@ export default function LoginForm() {
     startTransition(() => {
       login(values)
         .then((data) => {
-          if (data.error) {
+          if (data && data.error) {
+            console.log("❌ Error in Form!");
             form.setError("root.serverError", {
               ...data.error
             });
@@ -118,7 +119,7 @@ export default function LoginForm() {
 
           </CardFooter>
           <div className="w-full min-h-12 flex justify-center">
-            <Link href="/auth/sign-up" className="ml-2">Need to register?</Link>
+            <Link href="/auth/register" className="ml-2">Need to register?</Link>
           </div>
         </Card>
       </form>

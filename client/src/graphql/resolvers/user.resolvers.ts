@@ -43,7 +43,7 @@ const resolvers: Resolvers = {
       if (!newUser) {
         throw new Error('Error');
       }
-
+      
       return newUser;
     },
     login: async function (parent: any, args: any, context: ContextValue) {

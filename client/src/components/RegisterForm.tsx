@@ -48,7 +48,7 @@ export default function RegisterForm() {
     startTransition(() => {
       register(values)
         .then((data) => {
-          if (data && "error" in data) {
+          if ("error" in data) {
             form.setError("root.serverError", {
               ...data.error
             });
@@ -158,7 +158,7 @@ export default function RegisterForm() {
             <Label htmlFor="isAdmin" className=" flex items-center space-x-4 rounded-md border p-4">
               <ShieldEllipsis />
               <div className="flex-1 space-y-1">
-                <p  className="text-sm font-medium leading-none">
+                <p className="text-sm font-medium leading-none">
                   Admin account
                 </p>
                 <p className="text-sm text-muted-foreground">
@@ -172,7 +172,7 @@ export default function RegisterForm() {
                 render={({ field }) => {
                   return (
                     <FormControl>
-                      <Switch id="isAdmin" checked={field.value} onCheckedChange={field.onChange}/>
+                      <Switch id="isAdmin" checked={field.value} onCheckedChange={field.onChange} />
                     </FormControl>
                   )
                 }}
@@ -192,7 +192,7 @@ export default function RegisterForm() {
 
           </CardFooter>
           <div className="w-full min-h-12 flex justify-center">
-            <Link href="/auth/sign-in" className="ml-2">Already registered?</Link>
+            <Link href="/auth/login" className="ml-2">Already registered?</Link>
           </div>
         </Card>
       </form>
