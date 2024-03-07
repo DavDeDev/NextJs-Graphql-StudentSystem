@@ -3,26 +3,20 @@ import { ApolloServer } from '@apollo/server';
 import { gql } from 'graphql-tag';
 import { NextRequest } from 'next/server';
 
-import typeDefs from '@/graphql/schemas';
-import resolvers from '@/graphql/resolvers';
+import typeDefs from '@/graphql/typedefs/user.typedefs';
+import resolvers from '@/graphql/resolvers/user.resolvers';
 
 import { connectToDB } from '@/lib/database';
+import { ContextValue, apolloServer } from '@/graphql/apolloServer';
 
 
-interface ContextValue {
-  token: string;
-  dataSources: {
-    mongodb: void;
-  };
-}
-const server = new ApolloServer<ContextValue>({
-  resolvers,
-  typeDefs,
-});
 
-const handler = startServerAndCreateNextHandler<NextRequest>(server as ApolloServer<object>, {
+
+
+
+const handler = startServerAndCreateNextHandler(apolloServer, {
   context: async (req): Promise<ContextValue> => {
-    console.log('🚀 Apollo starts')
+    console.log('🚀 Apollo SERVER starts')
     const token = "token";
     return {
       token,
@@ -31,6 +25,7 @@ const handler = startServerAndCreateNextHandler<NextRequest>(server as ApolloSer
       },
     };
   },
+
 });
 
 export { handler as GET, handler as POST };

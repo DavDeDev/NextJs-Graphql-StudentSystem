@@ -6,9 +6,6 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
 
       <Link href='/api/graphql'>Apollo Server</Link>
-      <Link href='/auth/register'>Register</Link>
-      <Link href='/auth/login'>Login</Link>
-      <Link href='/about'>About</Link>
 
     </main>
   );
