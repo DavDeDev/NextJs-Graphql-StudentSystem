@@ -22,8 +22,8 @@ export const register = async (values: z.infer<typeof RegisterSchema>): Promise<
     return { error: { type: '403', message: 'Invalid fields' } }
   }
 
-  const existingUser= await User.findOne({ email: values.email });
-  
+  const existingUser = await User.findOne({ email: values.email });
+
 
   if (existingUser) {
     return { error: { type: '400', message: 'Email already in use' } }
@@ -33,6 +33,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>): Promise<
   const newUser = new User({
     ...values,
     name,
+    role: values.isAdmin  ? "admin" : "student"
   });
   console.log(values)
   return await newUser.save()

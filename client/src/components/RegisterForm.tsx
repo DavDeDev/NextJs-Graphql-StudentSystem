@@ -45,6 +45,7 @@ export default function RegisterForm() {
   async function onSubmit(values: z.infer<typeof RegisterSchema>) {
     form.clearErrors();
     console.log("🔄️ Logging in");
+    
     startTransition(() => {
       register(values)
         .then((data) => {
@@ -158,7 +159,7 @@ export default function RegisterForm() {
             <Label htmlFor="isAdmin" className=" flex items-center space-x-4 rounded-md border p-4">
               <ShieldEllipsis />
               <div className="flex-1 space-y-1">
-                <p className="text-sm font-medium leading-none">
+                <p  className="text-sm font-medium leading-none">
                   Admin account
                 </p>
                 <p className="text-sm text-muted-foreground">
@@ -172,7 +173,7 @@ export default function RegisterForm() {
                 render={({ field }) => {
                   return (
                     <FormControl>
-                      <Switch id="isAdmin" checked={field.value} onCheckedChange={field.onChange} />
+                      <Switch id="isAdmin" checked={field.value} onCheckedChange={field.onChange}/>
                     </FormControl>
                   )
                 }}

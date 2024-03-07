@@ -14,6 +14,7 @@ export const authConfig: NextAuthConfig = {
 
   providers: [
     Credentials({
+
       // The credentials is used to generate a suitable form on the sign in page.
       // You can specify whatever fields you are expecting to be submitted.
       // e.g. domain, username, password, 2FA token, etc.
@@ -21,10 +22,10 @@ export const authConfig: NextAuthConfig = {
 
       async authorize(credentials, req) {
         console.log("=========AUTHORIZE==========")
-        // // TODO: use graphql to authenticate
-        console.log(req)
+        // // // TODO: use graphql to authenticate
+        // console.log(req)
 
-        // // Validate fields
+        // // // Validate fields
         const validatedFields = LoginSchema.safeParse(credentials);
         console.log("Are fields valid? ", validatedFields);
         console.log("============================")
@@ -37,11 +38,12 @@ export const authConfig: NextAuthConfig = {
           console.log(!user);
           console.log("============================")
           if (!user) return null;
-          
+
           const doesPasswordMatch = await user.comparePassword(password);
+
           if (doesPasswordMatch) return user;
           return user;
-          
+
         }
 
         return null;
@@ -52,6 +54,7 @@ export const authConfig: NextAuthConfig = {
         return {
           ...profile,
           id: profile.sub,
+          role: profile.role ?? "student"
         }
       },
       clientId: process.env.GOOGLE_CLIENT_ID as string,

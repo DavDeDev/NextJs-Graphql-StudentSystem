@@ -7,7 +7,7 @@ export interface IUser extends Document {
   email: string;
   password: string;
   name: string;
-  isAdmin: boolean;
+  role: string;
 }
 
 interface IUserMethods {
@@ -30,10 +30,10 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>({
     type: String,
     required: true
   },
-  isAdmin: {
-    type: Boolean,
+  role: {
+    type: String,
     required: true,
-    default: false
+    default: "student"
   }
 });
 
