@@ -19,35 +19,44 @@ export const authConfig: NextAuthConfig = {
       // You can specify whatever fields you are expecting to be submitted.
       // e.g. domain, username, password, 2FA token, etc.
       // You can pass any HTML attribute to the <input> tag through the object.
+      credentials: {
+        user: {label:"User",type:"string"}
+      },
+      // FIXME: this works dev environment, but not in production because mongoose can't run on edge.
+      // async authorize(credentials, req) {
+      //   console.log("=========AUTHORIZE==========")
+      //   // // // TODO: use graphql to authenticate
+      //   // console.log(req)
 
+      //   // // // Validate fields
+      //   const validatedFields = LoginSchema.safeParse(credentials);
+      //   console.log("Are fields valid? ", validatedFields);
+      //   console.log("============================")
+      //   if (!validatedFields.success) return null;
+      //   if (validatedFields) {
+      //     const { email, password } = validatedFields.data;
+
+      //     // https://mongoosejs.com/docs/nextjs.html#:~:text=While%20you%20can%20import%20Mongoose,uses%20to%20connect%20to%20MongoDB.
+      //     const user = await User.findOne({ email });
+      //     console.log(!user);
+      //     console.log("============================")
+      //     if (!user) return null;
+
+      //     const doesPasswordMatch = await user.comparePassword(password);
+
+      //     if (doesPasswordMatch) return user;
+      //     return user;
+
+      //   }
+
+      //   return null;
+      // },
       async authorize(credentials, req) {
-        console.log("=========AUTHORIZE==========")
-        // // // TODO: use graphql to authenticate
-        // console.log(req)
-
-        // // // Validate fields
-        const validatedFields = LoginSchema.safeParse(credentials);
-        console.log("Are fields valid? ", validatedFields);
-        console.log("============================")
-        if (!validatedFields.success) return null;
-        if (validatedFields) {
-          const { email, password } = validatedFields.data;
-
-          // https://mongoosejs.com/docs/nextjs.html#:~:text=While%20you%20can%20import%20Mongoose,uses%20to%20connect%20to%20MongoDB.
-          const user = await User.findOne({ email });
-          console.log(!user);
-          console.log("============================")
-          if (!user) return null;
-
-          const doesPasswordMatch = await user.comparePassword(password);
-
-          if (doesPasswordMatch) return user;
-          return user;
-
-        }
-
-        return null;
-      }
+        
+        // TODO: mongoose can't run on edge, hence we authorize the user in the server.
+        const user1= JSON.parse(credentials.user as string);
+           return { id: user1._id, ...user1}
+       }
     })
     , Google({
       profile: (profile: GoogleProfile) => {

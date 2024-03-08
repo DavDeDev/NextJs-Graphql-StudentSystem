@@ -6,13 +6,15 @@ import { RegisterSchema } from "@/schemas/registerSchema";
 import { HydratedDocument } from "mongoose";
 import { z } from "zod";
 
+
+// TODO: check how to redirect and authorize from here
 interface ErrorOutput {
   error: { type: string, message: string }
 }
 
-interface SuccessOutput {
-  res: { type: string, message: string }
-}
+  interface SuccessOutput {
+    res: { type: string, message: string }
+  }
 
 export const register = async (values: z.infer<typeof RegisterSchema>): Promise<ErrorOutput | SuccessOutput> => {
   await connectToDB();

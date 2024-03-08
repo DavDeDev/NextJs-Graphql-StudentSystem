@@ -41,6 +41,11 @@ export const {
 } = NextAuth({
   callbacks: {
     async signIn({ user, account }) {
+
+      console.log(user)
+      const existingUser = await User.findById(user.id);
+      console.log("EXISTING USER", existingUser)
+      if (!existingUser) return true;
       // // Allow OAuth without email verification
       // if (account?.provider !== "credentials") return true;
 
@@ -89,8 +94,8 @@ export const {
       if (!token.sub) return token;
       const existingUser = await User.findById(token.sub)
       if (!existingUser) return token;
-      token.role = existingUser.isAdmin?"admin":"student"
-      
+      token.role = existingUser.role
+
 
       return token;
     }

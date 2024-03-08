@@ -24,6 +24,11 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { RegisterSchema } from "@/schemas/registerSchema"
 import { register } from "@/actions/register"
 import { Label } from "./ui/label"
+import {
+  IconBrandGithub,
+  IconBrandGoogleFilled,
+} from "@tabler/icons-react";
+import { SocialButtons } from "./ui/social-buttons"
 
 
 
@@ -45,7 +50,7 @@ export default function RegisterForm() {
   async function onSubmit(values: z.infer<typeof RegisterSchema>) {
     form.clearErrors();
     console.log("🔄️ Logging in");
-    
+
     startTransition(() => {
       register(values)
         .then((data) => {
@@ -71,15 +76,23 @@ export default function RegisterForm() {
         <Card className="w-[350px]">
           <CardHeader>
             <CardTitle>Register</CardTitle>
-            <CardDescription>Deploy your new project in one-click.</CardDescription>
+            <CardDescription>Choose how to register.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-8">
+
+            <SocialButtons />
+
+            <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
+
             <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 ">
+
               <FormField
                 control={form.control}
                 name="firstName"
                 render={({ field }) => (
                   <FormItem>
+                    {/* <FloatingLabelInput {...field} id="name" label="First Name" />
+                    <FormMessage /> */}
                     <FormLabel>First Name</FormLabel>
                     <FormControl>
                       <Input disabled={isPending} placeholder="John" {...field} />
@@ -88,6 +101,7 @@ export default function RegisterForm() {
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="lastName"
@@ -159,7 +173,7 @@ export default function RegisterForm() {
             <Label htmlFor="isAdmin" className=" flex items-center space-x-4 rounded-md border p-4">
               <ShieldEllipsis />
               <div className="flex-1 space-y-1">
-                <p  className="text-sm font-medium leading-none">
+                <p className="text-sm font-medium leading-none">
                   Admin account
                 </p>
                 <p className="text-sm text-muted-foreground">
@@ -173,7 +187,7 @@ export default function RegisterForm() {
                 render={({ field }) => {
                   return (
                     <FormControl>
-                      <Switch id="isAdmin" checked={field.value} onCheckedChange={field.onChange}/>
+                      <Switch id="isAdmin" checked={field.value} onCheckedChange={field.onChange} />
                     </FormControl>
                   )
                 }}
@@ -187,14 +201,18 @@ export default function RegisterForm() {
               </AlertDescription>
             </Alert>}
           </CardContent>
-          <CardFooter className="flex justify-between">
+          <CardFooter className="flex justify-between h-fit">
             <Button type="button" variant="outline" onClick={() => form.reset()}>Reset</Button>
             <Button disabled={isPending} type="submit">Submit</Button>
 
           </CardFooter>
-          <div className="w-full min-h-12 flex justify-center">
-            <Link href="/auth/login" className="ml-2">Already registered?</Link>
-          </div>
+          <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent mb-4 h-[1px] w-full" />
+
+
+
+          <Button variant="link" className="w-full min-h-12 flex justify-center mb-4">
+            <Link href="/auth/login">Already registered?</Link>
+          </Button>
         </Card>
       </form>
     </Form >

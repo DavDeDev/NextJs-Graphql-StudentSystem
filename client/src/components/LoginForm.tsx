@@ -22,6 +22,7 @@ import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert"
 import { AlertCircle } from "lucide-react"
 import Link from "next/link"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "./ui/card"
+import { SocialButtons } from "./ui/social-buttons"
 
 
 
@@ -68,9 +69,14 @@ export default function LoginForm() {
         <Card className="w-[350px]">
           <CardHeader>
             <CardTitle>Login</CardTitle>
-            <CardDescription>Deploy your new project in one-click.</CardDescription>
+            <CardDescription>Decide how to login.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-8">
+
+            <SocialButtons />
+
+            <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
+
             <FormField
               control={form.control}
               name="email"
@@ -118,9 +124,10 @@ export default function LoginForm() {
             <Button disabled={isPending} type="submit">Submit</Button>
 
           </CardFooter>
-          <div className="w-full min-h-12 flex justify-center">
-            <Link href="/auth/register" className="ml-2">Need to register?</Link>
-          </div>
+          <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent mb-4 h-[1px] w-full" />
+          <Button variant="link" className="w-full min-h-12 flex justify-center mb-4">
+            <Link href="/auth/register">Need to register?</Link>
+          </Button>
         </Card>
       </form>
     </Form >
