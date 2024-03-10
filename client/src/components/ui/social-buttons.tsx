@@ -1,35 +1,48 @@
+"use client"
 import { IconBrandGithub, IconBrandGoogleFilled } from "@tabler/icons-react";
 import { Button } from "./button";
+import { signIn } from "next-auth/react";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
-const SocialButtons = ()=>
-(
-  <div className="flex flex-col space-y-4">
+const SocialButtons = () => {
+  const onClick = (provider: "google" | "github") => {
+    signIn(provider, {
+      callbackUrl: DEFAULT_LOGIN_REDIRECT,
 
-  <Button
-    className=" relative group/btn flex space-x-2 items-center justify-start px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
-    type="submit"
-    disabled
-  >
-    <IconBrandGithub className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
-    <span className="text-neutral-700 dark:text-neutral-300 text-sm">
-      GitHub
-    </span>
-    <BottomGradient />
+    })
+  }
 
-  </Button>
-  <Button
-    className=" relative group/btn flex space-x-2 items-center justify-start px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)] hover:bg-gray-100 dark:hover:bg-zinc-800 dark:hover:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
-    type="submit"
-  >
-    <IconBrandGoogleFilled className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
-    <span className="text-neutral-700 dark:text-neutral-300 text-sm">
-      Google
-    </span>
-    <BottomGradient />
-  </Button>
+  return (
+    <div className="flex flex-col space-y-4">
 
-</div>
-)
+      <Button
+        className=" relative group/btn flex space-x-2 items-center justify-start px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
+        type="button"
+        onClick={() => onClick("github")}
+        disabled
+      >
+        <IconBrandGithub className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
+        <span className="text-neutral-700 dark:text-neutral-300 text-sm">
+          GitHub
+        </span>
+        <BottomGradient />
+
+      </Button>
+      <Button
+        className=" relative group/btn flex space-x-2 items-center justify-start px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)] hover:bg-gray-100 dark:hover:bg-zinc-800 dark:hover:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
+        type="button"
+        onClick={() => onClick("google")}
+      >
+        <IconBrandGoogleFilled className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
+        <span className="text-neutral-700 dark:text-neutral-300 text-sm">
+          Google
+        </span>
+        <BottomGradient />
+      </Button>
+
+    </div>
+  )
+}
 
 const BottomGradient = () => {
   return (
@@ -40,4 +53,4 @@ const BottomGradient = () => {
   );
 };
 
-export {SocialButtons}
+export { SocialButtons }

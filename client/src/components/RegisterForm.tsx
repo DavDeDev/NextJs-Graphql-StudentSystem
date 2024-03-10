@@ -210,7 +210,7 @@ export default function RegisterForm() {
 
 
 
-          <Button variant="link" className="w-full min-h-12 flex justify-center mb-4">
+          <Button variant="link" type="button" className="w-full min-h-12 flex justify-center mb-4">
             <Link href="/auth/login">Already registered?</Link>
           </Button>
         </Card>

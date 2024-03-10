@@ -12,6 +12,7 @@ const { auth: middleware } = NextAuth(authConfig)
 
 export default middleware((req) => {
   console.log("====MIDDLEWARE====")
+  console.log(req.auth);
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
 

@@ -46,7 +46,7 @@ export default function LoginForm() {
     startTransition(() => {
       login(values)
         .then((data) => {
-          if (data && data.error) {
+          if (data && 'error' in data) {
             console.log("❌ Error in Form!");
             form.setError("root.serverError", {
               ...data.error
@@ -125,7 +125,7 @@ export default function LoginForm() {
 
           </CardFooter>
           <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent mb-4 h-[1px] w-full" />
-          <Button variant="link" className="w-full min-h-12 flex justify-center mb-4">
+          <Button variant="link" type="button" className="w-full min-h-12 flex justify-center mb-4">
             <Link href="/auth/register">Need to register?</Link>
           </Button>
         </Card>

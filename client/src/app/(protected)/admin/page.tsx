@@ -1,7 +1,5 @@
-import Image from "next/image";
-import Link from "next/link";
-
-
+"use client"
+import { useCurrentRole } from "@/hooks/useCurrentRole";
 // Mutation to retrieve all the students, mutation to retrieve all the sections and number of students
 
 // Course model will ahve an array of sections and each section will have an array of students
@@ -11,11 +9,11 @@ import Link from "next/link";
 
 // Course -> Sections -> Students
 export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+  const role = useCurrentRole();
 
-      Admin Page
-      TODO: Two tabs to load all the students and tab to load all the courses and add courses
-    </main>
-  );
+  if (role === "admin") {
+    return <p>You are an admin, welcome!</p>
+  }
+
+  return <p>You are not authorized to view this page!</p>
 }

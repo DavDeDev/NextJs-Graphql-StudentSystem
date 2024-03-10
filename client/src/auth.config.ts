@@ -52,7 +52,7 @@ export const authConfig: NextAuthConfig = {
       //   return null;
       // },
       async authorize(credentials, req) {
-        
+        console.log("=========AUTHORIZE==========");
         // TODO: mongoose can't run on edge, hence we authorize the user in the server.
         const user1= JSON.parse(credentials.user as string);
            return { id: user1._id, ...user1}
@@ -66,6 +66,8 @@ export const authConfig: NextAuthConfig = {
           role: profile.role ?? "student"
         }
       },
+      // https://authjs.dev/reference/core/errors/#oauthaccountnotlinked
+      allowDangerousEmailAccountLinking: true,
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     },

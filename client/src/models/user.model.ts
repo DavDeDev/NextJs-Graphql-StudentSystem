@@ -1,18 +1,18 @@
 import mongoose, { Schema, Document, InferSchemaType, Models, Model } from 'mongoose';
 import bcrypt from 'bcryptjs';
-import { SALT_ROUNDS } from '../lib/constant';
+import { ROLES, SALT_ROUNDS } from '@/lib/constants';
 
 
-export interface IUser extends Document {
+export interface IUser extends Document{
   email: string;
-  password: string;
   name: string;
-  role: string;
+  password: string;
+  role: (typeof ROLES)[number];
 }
+
 
 interface IUserMethods {
   comparePassword(password: string): Promise<boolean>;
-
 }
 type UserModel = Model<IUser, {}, IUserMethods>;
 const userSchema = new Schema<IUser, UserModel, IUserMethods>({
@@ -33,6 +33,7 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>({
   role: {
     type: String,
     required: true,
+    enum: ROLES,
     default: "student"
   }
 });
@@ -53,6 +54,6 @@ userSchema.method('comparePassword', function (password: string): Promise<boolea
 
 
 
-const User: UserModel = mongoose.models?.User ?? mongoose.model<UserModel>('User', userSchema, 'users');
+const User: UserModel = mongoose.models.User ?? mongoose.model<UserModel>('User', userSchema, 'users');
 
 export { User };

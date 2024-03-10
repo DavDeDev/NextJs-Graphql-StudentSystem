@@ -11,6 +11,8 @@ import { Cagliostro } from "next/font/google";
 import { User } from "./models/user.model";
 
 import "next-auth"
+import mongoose from "mongoose";
+import { connectToDB } from "./lib/database";
 
 
 // https://authjs.dev/getting-started/typescript
@@ -39,35 +41,22 @@ export const {
   signIn,
   signOut
 } = NextAuth({
+  pages: {
+    signIn: "/auth/login",
+    error: "/auth/error",
+  },
   callbacks: {
     async signIn({ user, account }) {
-
+      console.log("===========SIGNIN CALLBACK=========");
       console.log(user)
-      const existingUser = await User.findById(user.id);
+      const existingUser = await User.findOne({ email: user.email });
       console.log("EXISTING USER", existingUser)
-      if (!existingUser) return true;
       // // Allow OAuth without email verification
-      // if (account?.provider !== "credentials") return true;
-
-      // const existingUser = await getUserById(user.id);
-
-      // // Prevent sign in without email verification
-      // if (!existingUser?.emailVerified) return false;
-
-      // if (existingUser.isTwoFactorEnabled) {
-      //   const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(existingUser.id);
-
-      //   if (!twoFactorConfirmation) return false;
-
-      //   // Delete two factor confirmation for next sign in
-      //   await db.twoFactorConfirmation.delete({
-      //     where: { id: twoFactorConfirmation.id }
-      //   });
-      // }
 
       return true;
     },
     async session({ session, token, user }) {
+      await connectToDB();
       console.log("USER", user)
       console.log("TOKEN", token)
 
@@ -85,6 +74,7 @@ export const {
     },
     // README: we decided to use JWT as strategy, hence we need to define it
     async jwt({ token, account, profile }) {
+      await connectToDB();
       console.log("========TOKEN========");
       console.log(token)
       console.log("accounttt");
@@ -118,5 +108,6 @@ export const {
   ) as Adapter,
   session: { strategy: "jwt", },
   ...authConfig,
+  
 
 })
