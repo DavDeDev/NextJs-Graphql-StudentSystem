@@ -36,9 +36,9 @@ export default async function RootLayout({
               disableTransitionOnChange
             >
               <SiteHeader className="border-b-2"
-  
+
               />
-              <main className="">
+              <main className="relative h-full w-full grow">
                 {children}
               </main>
               <SiteFooter className="border-t-2  w-full" />

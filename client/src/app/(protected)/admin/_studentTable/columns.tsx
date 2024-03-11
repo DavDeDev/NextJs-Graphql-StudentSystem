@@ -1,5 +1,6 @@
 "use client"
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ColumnDef } from "@tanstack/react-table"
@@ -30,7 +31,7 @@ export const columns: ColumnDef<Student>[] = [
     // Trim id to the last 8 characters so it looks nicer
     cell: ({ row }) => {
       const student = row.original
-      return student._id.slice(-10)
+      return <Badge>{student._id.slice(-10)}</Badge>
     }
 
   },
@@ -79,7 +80,7 @@ export const columns: ColumnDef<Student>[] = [
         <div className="flex justify-center items-center">
           {row.original.courses.length > 0 ? (
             <CollapsibleTrigger>
-              <Button variant="ghost" className="flex justify-between gap-3">
+              <Button className="flex justify-between gap-3">
                 {row.original.courses.length}
                 <ChevronDown className="h-3 w-3" />
               </Button>

@@ -100,7 +100,7 @@ export const columns: ColumnDef<Course>[] = [
           */}
           {row.original.students.length > 0 ? (
             <CollapsibleTrigger>
-              <Button variant="ghost" className="flex justify-between gap-3">
+              <Button className="flex justify-between gap-3">
                 {row.original.students.length}
                 <ChevronDown className="h-3 w-3" />
               </Button>

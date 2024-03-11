@@ -19,7 +19,8 @@ export function SiteHeader({ className }: React.HTMLAttributes<HTMLElement>) {
   }
 
   return (
-    <header className={cn("flex items-center justify-between w-full sticky top-0 z-40  bg-background text-black", className)}>
+    <header className={cn("flex items-center justify-between w-full sticky top-0 z-40  bg-background text-black h-16 px-10 mb-4", className)}>
+      <div>StudentSystem</div>
       {user && (<DropdownMenu>
         <DropdownMenuTrigger>
           <UserAvatar
