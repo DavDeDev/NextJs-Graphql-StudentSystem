@@ -21,8 +21,8 @@ import { login } from "@/actions/login"
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert"
 import { AlertCircle } from "lucide-react"
 import Link from "next/link"
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "./ui/card"
-import { SocialButtons } from "./ui/social-buttons"
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "../../../components/ui/card"
+import { SocialButtons } from "../../../components/ui/social-buttons"
 
 
 

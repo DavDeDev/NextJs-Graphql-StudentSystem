@@ -21,7 +21,7 @@ const handler = startServerAndCreateNextHandler(apolloServer, {
     return {
       token,
       dataSources: {
-        mongodb: await connectToDB(),
+        mongoose: await connectToDB(),
       },
     };
   },

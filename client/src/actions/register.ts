@@ -1,9 +1,13 @@
 "use server"
 
+import { signIn } from "@/auth";
 import { connectToDB } from "@/lib/database";
 import { User, IUser } from "@/models/user.model";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { RegisterSchema } from "@/schemas/registerSchema";
 import { HydratedDocument } from "mongoose";
+import { Cagliostro } from "next/font/google";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 
 
@@ -12,9 +16,9 @@ interface ErrorOutput {
   error: { type: string, message: string }
 }
 
-  interface SuccessOutput {
-    res: { type: string, message: string }
-  }
+interface SuccessOutput {
+  res: { type: string, message: string }
+}
 
 export const register = async (values: z.infer<typeof RegisterSchema>): Promise<ErrorOutput | SuccessOutput> => {
   await connectToDB();
@@ -35,14 +39,20 @@ export const register = async (values: z.infer<typeof RegisterSchema>): Promise<
   const newUser = new User({
     ...values,
     name,
-    role: values.isAdmin  ? "admin" : "student"
+    role: values.isAdmin ? "admin" : "student"
   });
   console.log(values)
-  return await newUser.save()
-    .then(() => (
-      { res: { type: '200', message: 'Success' } }
-    ))
+  await newUser.save()
     .catch((err) => (
       { error: { type: '500', message: JSON.stringify(err) } }
     ));
+
+      console.log("🔄️  User registereddsdddddddddddd");
+      await signIn("credentials", {
+        user: JSON.stringify(newUser),
+
+        redirectTo: DEFAULT_LOGIN_REDIRECT,
+      })
+      return { res: { type: '200', message: 'Success' } }
+
 }

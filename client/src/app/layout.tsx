@@ -5,6 +5,10 @@ import { SessionProvider } from 'next-auth/react'
 import { auth } from '@/auth'
 
 import { ApolloProviders } from "@/providers/apollo";
+import { TailwindIndicator } from "@/components/tailwind-indicator";
+import { ThemeProvider } from "@/components/theme-provider";
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,9 +25,28 @@ export default async function RootLayout({
   const session = await auth();
   return (
     <ApolloProviders>
+      <SessionProvider session={session}>
         <html lang="en">
-          <body className={inter.className}>{children}</body>
+
+          <body className={`${inter.className} max-h-full min-h-screen flex flex-col items-center justify-between`}>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <SiteHeader className="border-b-2"
+  
+              />
+              <main className="">
+                {children}
+              </main>
+              <SiteFooter className="border-t-2  w-full" />
+              <TailwindIndicator />
+            </ThemeProvider>
+          </body>
         </html>
+      </SessionProvider>
     </ApolloProviders>
   );
 }

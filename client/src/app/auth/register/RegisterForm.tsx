@@ -20,15 +20,15 @@ import { login } from "@/actions/login"
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert"
 import { AlertCircle, BellRing, ShieldEllipsis } from "lucide-react"
 import Link from "next/link"
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "./ui/card"
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "../../../components/ui/card"
 import { RegisterSchema } from "@/schemas/registerSchema"
 import { register } from "@/actions/register"
-import { Label } from "./ui/label"
+import { Label } from "../../../components/ui/label"
 import {
   IconBrandGithub,
   IconBrandGoogleFilled,
 } from "@tabler/icons-react";
-import { SocialButtons } from "./ui/social-buttons"
+import { SocialButtons } from "../../../components/ui/social-buttons"
 
 
 
@@ -40,9 +40,11 @@ export default function RegisterForm() {
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
-      email: "david@gmail.com",
+      firstName: (Math.random() + 1).toString(36).substring(5),
+      lastName: (Math.random() + 1).toString(36).substring(10),
+      email: (Math.random() + 1).toString(36).substring(4) + "@gmail.com",
       password: "password",
-      isAdmin: true
+      isAdmin: false
     },
   })
 
@@ -60,6 +62,7 @@ export default function RegisterForm() {
             });
           }
           console.log("🔄️ [Client] Finished Transition");
+    
 
         }).catch(() => {
           form.setError("root.serverError", {

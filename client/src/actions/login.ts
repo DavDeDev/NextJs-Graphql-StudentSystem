@@ -72,6 +72,7 @@ export const login = async (values: z.infer<typeof LoginSchema>): Promise<ErrorO
 
       redirectTo: DEFAULT_LOGIN_REDIRECT,
     })
+    // await signIn("passkey")
     return { res: { type: '200', message: 'Success' } }
     
   } catch (error) {

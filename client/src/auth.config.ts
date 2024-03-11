@@ -13,6 +13,7 @@ import { User } from "./models/user.model";
 export const authConfig: NextAuthConfig = {
 
   providers: [
+    
     Credentials({
 
       // The credentials is used to generate a suitable form on the sign in page.

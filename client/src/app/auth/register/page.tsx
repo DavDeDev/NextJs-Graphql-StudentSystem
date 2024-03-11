@@ -1,5 +1,5 @@
-import LoginForm from "@/components/LoginForm";
-import RegisterForm from "@/components/RegisterForm";
+import LoginForm from "@/app/auth/login/LoginForm";
+import RegisterForm from "@/app/auth/register/RegisterForm";
 import Image from "next/image";
 import Link from "next/link";
 

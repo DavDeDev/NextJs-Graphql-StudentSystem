@@ -2,23 +2,20 @@ import gql from "graphql-tag";
 
 const typeDefs = gql`
   type Query {
-    hello: String
     users(user: UserInput): [User]
     user(user: UserInput): User
     courses(course: CourseInput): [Course]
     course(course: CourseInput): Course
-    studentEnrollments(studentId: ID): [Enrollment]
-    courseEnrollments(courseId: ID): [Enrollment]
+    studentEnrollments(student: UserInput): [Enrollment]
+    courseEnrollments(course: CourseInput): [Enrollment]
   }
 
   type Mutation {
-    register(user: UserInput): User
-    login(email: String, password: String): User
-
     createCourse(course: CourseInput): Course
-    enrollStudent(studentId: ID, courseId: ID): Enrollment
+    deleteCourse(course: CourseInput): Course
+    enrollStudent(student: UserInput, course: CourseInput): Enrollment
   }
-
+# TODO: Find a way to distinguish between student user and admin user
   type User {
     _id: ID
     name: String
@@ -41,6 +38,7 @@ const typeDefs = gql`
     course_code: String
     course_description: String
     capacity: Int
+    students: [User]
   }
 
   input CourseInput {
@@ -53,8 +51,8 @@ const typeDefs = gql`
 
   type Enrollment {
     _id: ID
-    course_id: ID
-    student_id: ID
+    course: Course
+    student: User
     status: String
   }
 `;

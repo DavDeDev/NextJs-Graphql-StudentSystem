@@ -15,7 +15,7 @@ export const getClient = ():ApolloClient<any>=> {
 
   /* Create a new client if there's no existing one
      or if we are running on the server. */
-  if (!client) {
+  if (!client || typeof window === 'undefined') {
     console.log('🚀 Apollo CLIENT starts');
     client = new ApolloClient({
       link: httpLink,

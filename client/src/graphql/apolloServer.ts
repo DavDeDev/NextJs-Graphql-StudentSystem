@@ -11,7 +11,7 @@ import { connectToDB } from '@/lib/database';
 export interface ContextValue {
   token: string;
   dataSources: {
-    mongodb: Awaited<ReturnType<typeof connectToDB>>;
+    mongoose: Awaited<ReturnType<typeof connectToDB>>;
   };
 }
 
