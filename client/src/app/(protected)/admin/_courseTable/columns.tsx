@@ -38,14 +38,18 @@ export type Student = {
 
 
 export const columns: ColumnDef<Course>[] = [
-  // {
-  //   accessorKey: "_id",
-  //   header: "Course ID"
-  // },
+  {
+    accessorKey: "_id",
+    header: "Course ID",
+    enableHiding: true,
+
+  },
   {
     accessorKey: "course_code",
     header: "Course Code",
-    cell: ({ row }) => (<Badge>{row.original.course_code}</Badge>)
+    cell: ({ row }) => (
+      <Badge>{row.original.course_code}</Badge>
+    )
   },
   {
     accessorKey: "course_name",
@@ -53,12 +57,15 @@ export const columns: ColumnDef<Course>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Course Name" />
     ),
+    enableSorting: true,
   },
   {
     accessorKey: "course_description",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Course Description" />
     ),
+    enableSorting: true,
+
   },
   // {
   //   id: "courses",

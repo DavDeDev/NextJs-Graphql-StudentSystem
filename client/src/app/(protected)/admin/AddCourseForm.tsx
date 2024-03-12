@@ -1,19 +1,36 @@
 "use client"
 
 import { Button } from "@/components/ui/button";
-import { DialogHeader, DialogFooter } from "@/components/ui/dialog";
+import { DialogHeader, DialogFooter, DialogTrigger } from "@/components/ui/dialog";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { CourseSchema } from "@/schemas/courseSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogContent, DialogTitle, DialogDescription, Dialog } from "@/components/ui/dialog";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { gql, useMutation } from "@apollo/client";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
 
+
+const ADD_COURSE = gql`
+mutation Mutation($course: CourseInput) {
+  createCourse(course: $course) {
+    _id
+    course_name
+    course_code 
+    course_description
+    capacity
+  }
+}
+`;
 export default function AddCourseForm() {
-  const [isPending, startTransition] = useTransition();
 
+  const [open, setOpen] = useState(false)
+  // const [loading, startTransition] = useTransition();
+  const [addCourse, { data, loading, error }] = useMutation(ADD_COURSE);
   const form = useForm<z.infer<typeof CourseSchema>>(
     {
       resolver: zodResolver(CourseSchema),
@@ -25,84 +42,109 @@ export default function AddCourseForm() {
       },
     }
   );
-
+  2
   async function onSubmit(values: z.infer<typeof CourseSchema>) {
-    form.clearErrors();
-    console.log("🔄️ Adding course");
+    addCourse({ variables: { course: values } })
+      .then(() => {
+        setOpen(false)
+      }
+      )
+      .catch((error) => {
+        form.setError("root.serverError", {
+          ...error
+        });
+      })
+
+
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Add Course</DialogTitle>
-            <DialogDescription>
-              Make changes to your profile here. Click save when you're done.
-            </DialogDescription>
-          </DialogHeader>
-          <FormField
-            control={form.control}
-            name="course_code"
-            render={({ field }) => (
-              <FormItem>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button className="absolute bottom-5 right-5 rounded-full">+</Button>
+      </DialogTrigger>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Add Course</DialogTitle>
+              <DialogDescription>
+                Make changes to your profile here. Click save when you're done.
+              </DialogDescription>
+            </DialogHeader>
+            <FormField
+              control={form.control}
+              name="course_code"
+              render={({ field }) => (
+                <FormItem>
 
-                <FormLabel>Course Code</FormLabel>
-                <FormControl>
-                  <Input disabled={isPending} placeholder="John" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="course_name"
-            render={({ field }) => (
-              <FormItem>
+                  <FormLabel>Course Code</FormLabel>
+                  <FormControl>
+                    <Input disabled={loading} placeholder="John" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="course_name"
+              render={({ field }) => (
+                <FormItem>
 
-                <FormLabel>Course Name</FormLabel>
-                <FormControl>
-                  <Input disabled={isPending} placeholder="John" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="course_description"
-            render={({ field }) => (
-              <FormItem>
+                  <FormLabel>Course Name</FormLabel>
+                  <FormControl>
+                    <Input disabled={loading} placeholder="John" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="course_description"
+              render={({ field }) => (
+                <FormItem>
 
-                <FormLabel>Course Description</FormLabel>
-                <FormControl>
-                  <Input disabled={isPending} placeholder="John" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="capacity"
-            render={({ field }) => (
-              <FormItem>
+                  <FormLabel>Course Description</FormLabel>
+                  <FormControl>
+                    <Input disabled={loading} placeholder="John" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="capacity"
+              render={({ field }) => (
+                <FormItem>
 
-                <FormLabel>Capacity</FormLabel>
-                <FormControl>
-                  <Input type="number" disabled={isPending} placeholder="John" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <DialogFooter className="flex justify-between h-fit">
-            <Button type="button" variant="outline" onClick={() => form.reset()}>Reset</Button>
-            <Button disabled={isPending} type="submit">Add Course</Button>
-          </DialogFooter>
-        </DialogContent>
-      </form>
-    </Form>
+                  <FormLabel>Capacity</FormLabel>
+                  <FormControl>
+                    <Input type="number" disabled={loading} placeholder="John" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {form.formState.errors.root && <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertTitle>Error {form.formState.errors.root.serverError.type}</AlertTitle>
+              <AlertDescription>
+                {form.formState.errors.root.serverError.message}
+              </AlertDescription>
+            </Alert>}
+
+            <DialogFooter className="flex flex-row justify-center h-fit">
+              <Button type="button" variant="outline" onClick={() => form.reset()}>Reset</Button>
+              <Button disabled={loading} onClick={form.handleSubmit(onSubmit)}>Add Course</Button>
+            </DialogFooter>
+          </DialogContent>
+        </form>
+      </Form>
+    </Dialog>
+
   )
 }

@@ -4,7 +4,10 @@ import { gql } from 'graphql-tag';
 import { NextRequest } from 'next/server';
 
 import typeDefs from '@/graphql/typedefs/user.typedefs';
-import resolvers from '@/graphql/resolvers/user.resolvers';
+import studentResolvers from '@/graphql/resolvers/student.resolvers';
+import courseResolvers from '@/graphql/resolvers/course.resolvers';
+import mutationResolvers from './resolvers/mutation.resolvers';
+import queryResolvers from './resolvers/query.resolvers';
 
 import { connectToDB } from '@/lib/database';
 
@@ -16,6 +19,6 @@ export interface ContextValue {
 }
 
 export const apolloServer = new ApolloServer<ContextValue>({
-  resolvers,
+  resolvers: [studentResolvers, courseResolvers, mutationResolvers, queryResolvers],
   typeDefs,
 });

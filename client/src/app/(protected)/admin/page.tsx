@@ -17,12 +17,8 @@ export default async function Home() {
       <TabsContent value="students" className="h-full"> <StudentsTable /></TabsContent>
 
       <TabsContent value="courses" className="h-full"><CoursesTable /></TabsContent>
-      <Dialog>
-      <DialogTrigger asChild>
-        <Button className="absolute bottom-5 right-5 rounded-full">+</Button>
-      </DialogTrigger>
+
       <AddCourseForm />
-    </Dialog>
     </Tabs>
   );
 }

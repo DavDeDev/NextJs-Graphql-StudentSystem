@@ -7,14 +7,14 @@ import { columns } from "./_studentTable/columns";
 
 // Course model will ahve an array of sections and each section will have an array of students
 
-// TODO: Student model is in the users schema but always have a student role
+// TODO: Student model is in the students schema but always have a student role
 // TODO: 
 
 // Course -> Sections -> Students
 
 const GET_STUDENTS = gql`
-query Users($user: UserInput) {
-  users(user: $user) {
+query Students($student: StudentInput) {
+  students(student: $student) {
     _id
     name
     email
@@ -31,13 +31,13 @@ query Users($user: UserInput) {
 export default function StudentsTable() {
   const { loading, error, data } = useQuery(GET_STUDENTS, {
 
-    variables: { user: { role: "student" } },
+    variables: { student: { role: "student" } },
 
   });
   if (loading) return null;
 
   if (error) return `Error! ${error}`;
   return (
-    <DataTable columns={columns} data={data.users} />
+    <DataTable columns={columns} data={data.students} />
   )
 }

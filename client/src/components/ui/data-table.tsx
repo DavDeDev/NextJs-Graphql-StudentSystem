@@ -50,9 +50,19 @@ export function DataTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
+
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    initialState: {
+      // function that display all the columns that are not hidden
+
+      columnVisibility: columns.reduce((acc: Record<string, boolean>, column: ColumnDef<TData, TValue>) => {
+        console.log(JSON.stringify(column));
+        acc[(column as ColumnDef<TData, TValue> & {accessorKey: string}).accessorKey] = !column.enableHiding
+        return acc
+      }, {}),
+    },
   })
   return (
     <div className="rounded-md border">

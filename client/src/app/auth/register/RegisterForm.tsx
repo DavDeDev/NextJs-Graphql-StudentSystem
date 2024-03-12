@@ -48,7 +48,6 @@ export default function RegisterForm() {
     },
   })
 
-  // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof RegisterSchema>) {
     form.clearErrors();
     console.log("🔄️ Logging in");
@@ -94,8 +93,6 @@ export default function RegisterForm() {
                 name="firstName"
                 render={({ field }) => (
                   <FormItem>
-                    {/* <FloatingLabelInput {...field} id="name" label="First Name" />
-                    <FormMessage /> */}
                     <FormLabel>First Name</FormLabel>
                     <FormControl>
                       <Input disabled={isPending} placeholder="John" {...field} />

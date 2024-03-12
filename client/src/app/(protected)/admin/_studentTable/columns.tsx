@@ -28,6 +28,7 @@ export const columns: ColumnDef<Student>[] = [
   {
     accessorKey: "_id",
     header: "Student ID",
+    enableHiding: false,
     // Trim id to the last 8 characters so it looks nicer
     cell: ({ row }) => {
       const student = row.original
