@@ -26,6 +26,7 @@ query Students($student: StudentInput) {
         course_code
         course_description
         capacity
+        section
       }
   }
 }
@@ -44,7 +45,7 @@ export default function StudentsTable() {
 
   if (error) return `Error! ${error}`;
   return (
-    <DataTable columns={columns} data={data.students}
-    />
+      <DataTable columns={columns} data={data.students}
+      />
   )
 }

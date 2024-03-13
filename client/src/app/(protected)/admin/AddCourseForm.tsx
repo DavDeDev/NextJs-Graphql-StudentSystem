@@ -10,14 +10,15 @@ import { DialogContent, DialogTitle, DialogDescription, Dialog } from "@/compone
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { FetchResult, MutationResult, OperationVariables, gql, useMutation } from "@apollo/client";
+import { ApolloCache, DefaultContext, FetchResult, MutationFunctionOptions, MutationResult, OperationVariables, gql, useMutation } from "@apollo/client";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
 import { Course } from "./studentTableColumns";
 
 
 interface addCourseFormProps {
-  addCourse: ({variables}:OperationVariables) => Promise<FetchResult<Course>>;
+  // addCourse: ({variables}:OperationVariables) => Promise<FetchResult<Course>>;
+  addCourse: ({variables}:OperationVariables) => Promise<any>;
   state: MutationResult<any>;
 
 }

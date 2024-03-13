@@ -5,20 +5,9 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useCallback, useMemo } from "react";
 import { Course } from "../admin/studentTableColumns";
 import { availableCourseTableColumns } from "./_availableCoursesTable/columns";
-// Mutation to retrieve all the students, mutation to retrieve all the sections and number of students
-
-// Course model will ahve an array of sections and each section will have an array of students
-
-// TODO: Student model is in the students schema but always have a student role
-// TODO: 
-
-// Course -> Sections -> Students
-
-
-
 
 const ENROLL_COURSE = gql`
-mutation DropCourse($student: StudentInput, $course: CourseInput) {
+mutation EnrollCourse($student: StudentInput, $course: CourseInput) {
 
   enrollStudent (student: $student, course: $course) {
     _id
@@ -44,7 +33,7 @@ export default function AvailableCoursesTable({ data, refetchCourses }: { data: 
   }, [])
 
 
-  const columns: ColumnDef<Course>[] = useMemo(() => availableCourseTableColumns({ onEnroll }), [onEnroll]);
+  const columns: ColumnDef<any>[] = useMemo(() => availableCourseTableColumns({ onEnroll }), [onEnroll]);
 
 
   return (

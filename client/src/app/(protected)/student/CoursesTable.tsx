@@ -24,6 +24,7 @@ query Student($student: StudentInput) {
       course_code
       course_description
       capacity
+      section
     }
   }
 }`;

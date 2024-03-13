@@ -15,6 +15,7 @@ const typeDefs = gql`
     deleteCourse(course: CourseInput): Course
     enrollStudent(student: StudentInput, course: CourseInput): Enrollment
     dropCourse(student: StudentInput, course: CourseInput): Course
+    editSection(student: StudentInput, course: CourseInput, section: Int): Enrollment
   }
 # TODO: Find a way to distinguish between student student and admin student
   type Student {
@@ -40,6 +41,7 @@ const typeDefs = gql`
     course_code: String
     course_description: String
     capacity: Int
+    section: Int
     students: [Student]
   }
 

@@ -22,6 +22,7 @@ export type Course = {
   course_code: string;
   course_description: string;
   capacity: number;
+  section: number;
 }
 
 export type Student = {
@@ -76,7 +77,7 @@ export const getStudentTableColumns = (): ColumnDef<Student>[] => [
                 <DropdownMenuSeparator />
                 {row.original.courses.map((course) => (
                   <DropdownMenuItem key={course._id} className="flex gap-3">
-                    <Badge variant="secondary">{course.course_code}</Badge>{course.course_name}
+                    <Badge variant="secondary">{course.course_code} - {course.section}</Badge>{course.course_name}
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>

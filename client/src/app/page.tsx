@@ -1,7 +1,5 @@
-import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
 import { Spotlight } from "@/components/ui/spotlight";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
@@ -17,7 +15,9 @@ export default function Home() {
           Student Service 2.
         </h1>
         <div className="w-full flex justify-center gap-5">
-          <Button><Link href='/auth/login'>Login</Link></Button>
+          <Button>
+            <Link href='/auth/login'>Login</Link>
+            </Button>
         </div>
       </div>
     </div>

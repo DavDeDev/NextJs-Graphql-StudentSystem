@@ -20,7 +20,7 @@ export function SiteHeader({ className }: React.HTMLAttributes<HTMLElement>) {
   }
 
   return (
-    <header className={cn("flex justify-between px-10 h-16 sticky top-0 z-50 w-full border-b border-border/40 bg-background/60 backdrop-blur supports-[backdrop-filter]:bg-background/70", className)}>
+    <header className={cn("flex justify-between px-10 h-16 sticky top-0 z-50 w-full  bg-background/60 backdrop-blur supports-[backdrop-filter]:bg-background/70", className)}>
       <Link href="/" className="flex items-center gap-2">Student System</Link>
       {user && (<DropdownMenu>
         <DropdownMenuTrigger>

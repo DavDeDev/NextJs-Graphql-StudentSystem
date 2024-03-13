@@ -2,6 +2,7 @@ import { Course, ICourse } from '@/models/course.model';
 import { Enrollment } from '@/models/enrollment.model';
 import { Resolver, Resolvers } from "@apollo/client";
 import { ContextValue } from '../apolloServer';
+import { Cagliostro } from 'next/font/google';
 
 
 const createCourse: Resolver = async (parent: any, args: any, context: ContextValue): Promise<ICourse> => {
@@ -40,15 +41,30 @@ const enrollStudent: Resolver = async (_, { student, course }) => {
 
 
 const dropCourse: Resolver = async (_, { student, course }) => {
+  console.log("dropping course");
+  console.log(student);
+  console.log(course);
   const updatedEnrollment = await Enrollment.findOneAndUpdate({ student_id: student._id, course_id: course._id }, { status: "dropped" }, { returnOriginal: false, upsert: true });
   // return the course that has been just dropped
+  console.log("=========================================");
+  console.log(updatedEnrollment);
   console.log("DROPPING COURSEEE")
   const droppedCourse = await Course.findOne({ _id: updatedEnrollment.course_id });
-  if (!droppedCourse) {
-    throw new Error('Error');
-  }
+  // if (!droppedCourse) {
+  //   throw new Error('Error');
+  // }
   return droppedCourse;
 };
+
+const editSection: Resolver = async (_, { student, course, section }) => {
+  console.log("editing section");
+  console.log(student);
+  console.log(course);
+  console.log(section);
+  const updatedEnrollment = await Enrollment.findOneAndUpdate({ student_id: student._id, course_id: course._id }, { section: section }, { returnOriginal: false, upsert: true });
+  console.log(updatedEnrollment);
+  return updatedEnrollment;
+}
 
 
 export const mutationResolvers: Resolvers = {
@@ -57,7 +73,8 @@ export const mutationResolvers: Resolvers = {
     createCourse,
     deleteCourse,
     enrollStudent,
-    dropCourse
+    dropCourse,
+    editSection
   }
 
 };

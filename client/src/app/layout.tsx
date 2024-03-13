@@ -35,7 +35,7 @@ export default async function RootLayout({
               enableSystem
               disableTransitionOnChange
             >
-              <SiteHeader className="border-b-2"
+              <SiteHeader className=""
 
               />
               <main className="relative h-full w-full grow flex justify-center">

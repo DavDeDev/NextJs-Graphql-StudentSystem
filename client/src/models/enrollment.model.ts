@@ -6,6 +6,7 @@ export interface IEnrollment extends Document {
   course_id: ObjectId;
   student_id: ObjectId;
   status: (typeof COURSE_STATUSES)[number];
+  section: number;
 }
 
 type EnrollmentModel = Model<IEnrollment>;
@@ -19,13 +20,18 @@ const enrollmentSchema = new Schema<IEnrollment, EnrollmentModel>({
   student_id: {
     type: Schema.Types.ObjectId,
     ref: 'User',
-    required: true
+    required: true  
   },
   status: {
     type: String,
     required: true,
     enum: COURSE_STATUSES,
     default: "enrolled"
+  },
+  section:{
+    type: Number,
+    required: true,
+    default: 1
   }
 })
 

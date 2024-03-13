@@ -24,6 +24,14 @@ mutation DropCourse($student: StudentInput, $course: CourseInput) {
 }
 `;
 
+const CHANGE_SECTION = gql`
+mutation Mutation($student: StudentInput, $course: CourseInput, $section: Int) {
+  editSection(student: $student, course: $course, section: $section) {
+    _id
+  }
+}
+`;
+
 export default function EnrolledCoursesTable({ data, refetchCourses }: { data: any, refetchCourses: any }) {
 
   const [dropCourse] = useMutation(DROP_COURSE, {
@@ -31,6 +39,8 @@ export default function EnrolledCoursesTable({ data, refetchCourses }: { data: a
       refetchCourses();
     }
   });
+
+ 
 
   const onDrop = useCallback((courseId: string, studentId = data.student._id) => {
     dropCourse({
@@ -41,8 +51,24 @@ export default function EnrolledCoursesTable({ data, refetchCourses }: { data: a
     });
   }, [])
 
+ const [changeSection] = useMutation(CHANGE_SECTION, {
+    onCompleted: () => {
+      refetchCourses();
+    }
+  });
 
-  const columns: ColumnDef<Course>[] = useMemo(() => enrolledCourseTableColumns({ onDrop }), [onDrop]);
+  const onSectionChange = useCallback((courseId: string, section: number, studentId = data.student._id) => {
+    changeSection({
+      variables: {
+        course: { _id: courseId },
+        student: { _id: studentId },
+        section
+      }
+    }); 
+  }, [])
+
+
+  const columns: ColumnDef<Course>[] = useMemo(() => enrolledCourseTableColumns({ onDrop,onSectionChange }), [onDrop,onSectionChange]);
 
 
   return (
