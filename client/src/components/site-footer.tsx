@@ -4,6 +4,8 @@ import * as React from "react"
 import { cn } from "@/lib/utils"
 import { Icons } from "@/components/icons"
 import { ModeToggle } from "@/components/ui/mode-toggle"
+import { Button } from "./ui/button"
+import Link from "next/link"
 
 export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
   return (
@@ -16,6 +18,9 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
           </p>
         </div>
         <ModeToggle />
+        <Button variant="secondary">
+          <Link href='/api/graphql'>Apollo Server</Link>
+        </Button>
       </div>
     </footer>
   )

@@ -10,27 +10,22 @@ import { DialogContent, DialogTitle, DialogDescription, Dialog } from "@/compone
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { gql, useMutation } from "@apollo/client";
+import { FetchResult, MutationResult, OperationVariables, gql, useMutation } from "@apollo/client";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
+import { Course } from "./studentTableColumns";
 
 
-const ADD_COURSE = gql`
-mutation Mutation($course: CourseInput) {
-  createCourse(course: $course) {
-    _id
-    course_name
-    course_code 
-    course_description
-    capacity
-  }
+interface addCourseFormProps {
+  addCourse: ({variables}:OperationVariables) => Promise<FetchResult<Course>>;
+  state: MutationResult<any>;
+
 }
-`;
-export default function AddCourseForm() {
+
+export default function AddCourseForm({ addCourse, state }: addCourseFormProps) {
 
   const [open, setOpen] = useState(false)
-  // const [loading, startTransition] = useTransition();
-  const [addCourse, { data, loading, error }] = useMutation(ADD_COURSE);
+  // const [ state.loading, startTransition] = useTransition();
   const form = useForm<z.infer<typeof CourseSchema>>(
     {
       resolver: zodResolver(CourseSchema),
@@ -80,7 +75,7 @@ export default function AddCourseForm() {
 
                   <FormLabel>Course Code</FormLabel>
                   <FormControl>
-                    <Input disabled={loading} placeholder="John" {...field} />
+                    <Input disabled={state.loading} placeholder="John" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -94,7 +89,7 @@ export default function AddCourseForm() {
 
                   <FormLabel>Course Name</FormLabel>
                   <FormControl>
-                    <Input disabled={loading} placeholder="John" {...field} />
+                    <Input disabled={state.loading} placeholder="John" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -108,7 +103,7 @@ export default function AddCourseForm() {
 
                   <FormLabel>Course Description</FormLabel>
                   <FormControl>
-                    <Input disabled={loading} placeholder="John" {...field} />
+                    <Input disabled={state.loading} placeholder="John" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -122,7 +117,7 @@ export default function AddCourseForm() {
 
                   <FormLabel>Capacity</FormLabel>
                   <FormControl>
-                    <Input type="number" disabled={loading} placeholder="John" {...field} />
+                    <Input type="number" disabled={state.loading} placeholder="John" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -139,7 +134,7 @@ export default function AddCourseForm() {
 
             <DialogFooter className="flex flex-row justify-center h-fit">
               <Button type="button" variant="outline" onClick={() => form.reset()}>Reset</Button>
-              <Button disabled={loading} onClick={form.handleSubmit(onSubmit)}>Add Course</Button>
+              <Button disabled={state.loading} onClick={form.handleSubmit(onSubmit)}>Add Course</Button>
             </DialogFooter>
           </DialogContent>
         </form>

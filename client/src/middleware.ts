@@ -6,11 +6,18 @@ import {
   authRoutes,
   publicRoutes,
 } from "@/routes";
+import { getSession } from "next-auth/react"
 
 // https://authjs.dev/guides/upgrade-to-v5#edge-compatibility
 const { auth: middleware } = NextAuth(authConfig)
 
-export default middleware((req) => {
+export default middleware( (req) => {
+  // get session role
+  // if role is admin, redirect to /admin
+  // if role is student, redirect to /student
+//   const session = await getSession();
+// console.log(session);
+
   console.log("====MIDDLEWARE====")
   console.log(req.auth);
   const { nextUrl } = req;

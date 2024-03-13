@@ -7,20 +7,17 @@ import { gql, useMutation } from "@apollo/client";
 import { ColumnDef } from "@tanstack/react-table"
 import { ChevronDown } from "lucide-react";
 import { Badge } from "@/components/ui/badge"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 // TODO: find a wayt to infer the same IUser and ICourse type from mongoose model
 
-const DELETE_COURSE = gql`
-mutation DeleteCourse($course: CourseInput) {
-  deleteCourse(course: $course) {
-    _id
-    course_name
-    course_code
-    course_description
-    capacity
-  }
-}
-`;
 export type Course = {
   _id: string;
   course_name: string;
@@ -36,8 +33,11 @@ export type Student = {
   email: string;
 }
 
+interface CourseTablePropsCols {
+  onDelete: (id: string) => void;
+}
 
-export const columns: ColumnDef<Course>[] = [
+export const getCoursesTableColumns = ({ onDelete }: CourseTablePropsCols): ColumnDef<Course>[] => [
   {
     accessorKey: "_id",
     header: "Course ID",
@@ -106,13 +106,24 @@ export const columns: ColumnDef<Course>[] = [
           {/* add a condition that if the length is greater than 1, then show the collapsible trigger
           */}
           {row.original.students.length > 0 ? (
-            <CollapsibleTrigger>
-              <Button className="flex justify-between gap-3">
+
+
+            <DropdownMenu>
+              <DropdownMenuTrigger> <Button className="flex justify-between gap-3">
                 {row.original.students.length}
                 <ChevronDown className="h-3 w-3" />
               </Button>
-
-            </CollapsibleTrigger>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>Enrolled Students</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {row.original.students.map((student) => (
+                  <DropdownMenuItem key={student._id} className="flex gap-3">
+                    <Badge variant="secondary">{student._id.slice(-10)}</Badge>{student.name}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
 
           ) : (<p className="text-bold">N/A</p>)}
 
@@ -124,17 +135,10 @@ export const columns: ColumnDef<Course>[] = [
   {
     id: "delete",
     header: "Delete",
-    cell: ({ row }) => {
-
-      const [deleteCourse] = useMutation(DELETE_COURSE, {
-        variables: { course: { _id: row.original._id } },
-      });
-      console.log(row.original._id)
-      return (
-        <Button variant="destructive" onClick={() => deleteCourse()}>
-          Delete
-        </Button>
-      );
-    },
+    cell: ({ row }) => (
+      <Button variant="destructive" onClick={() => onDelete(row.original._id)}>
+        Delete
+      </Button>
+    )
   },
 ]

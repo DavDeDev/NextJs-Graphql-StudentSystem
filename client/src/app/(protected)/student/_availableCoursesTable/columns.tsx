@@ -9,14 +9,6 @@ import { ColumnDef } from "@tanstack/react-table";
 // TODO: find a wayt to infer the same IUser and ICourse type from mongoose model
 
 
-const ENROLL_COURSE = gql`
-mutation DropCourse($student: StudentInput, $course: CourseInput) {
-
-  enrollStudent (student: $student, course: $course) {
-    _id
-  }
-}
-`;
 export type Course = {
   _id: string;
   course_name: string;
@@ -24,14 +16,17 @@ export type Course = {
   course_description: string;
   capacity: number;
 }
+interface AvailableCourseTablePropsCols {
+  onEnroll: (course_id: string) => void;
+}
 
 
-
-export const columns: (studentId: string ) => ColumnDef<Course>[] = (studentId: string) => [
-  // {
-  //   accessorKey: "_id",
-  //   header: "Course ID"
-  // },
+export const availableCourseTableColumns: ({onEnroll}: AvailableCourseTablePropsCols) => ColumnDef<Course>[] = ({onEnroll}) => [
+  {
+    accessorKey: "_id",
+    header: "Course ID",
+    enableHiding: true,
+  },
   {
     accessorKey: "course_code",
     header: "Course Code",
@@ -54,19 +49,9 @@ export const columns: (studentId: string ) => ColumnDef<Course>[] = (studentId: 
     id: "enroll",
     header: "Enroll",
     cell: ({ row }) => {
-      console.log("STUDENTID",studentId)
-      const [enrollCourse, { data, loading, error }] = useMutation(ENROLL_COURSE, {
-        variables: {
-          student: {
-            _id: studentId
-          },
-          course: {
-            _id: row.original._id
-          }
-        },
-      });
+      
       return (
-        <Button disabled={loading} onClick={() => enrollCourse()}>
+        <Button onClick={() => onEnroll(row.original._id)}>
           Enroll
         </Button>
       );

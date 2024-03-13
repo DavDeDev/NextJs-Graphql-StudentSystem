@@ -1,8 +1,10 @@
 "use client"
 import { DataTable } from "@/components/ui/data-table";
-import { useCurrentRole } from "@/hooks/useCurrentRole";
 import { gql, useQuery } from "@apollo/client";
-import { columns } from "./_studentTable/columns";
+import { ColumnDef } from "@tanstack/react-table";
+import { useMemo } from "react";
+import LoadingSkeleton from "./LoadingSkeleton";
+import { Student, getStudentTableColumns } from "./studentTableColumns";
 // Mutation to retrieve all the students, mutation to retrieve all the sections and number of students
 
 // Course model will ahve an array of sections and each section will have an array of students
@@ -28,16 +30,21 @@ query Students($student: StudentInput) {
   }
 }
 `;
+
 export default function StudentsTable() {
   const { loading, error, data } = useQuery(GET_STUDENTS, {
 
     variables: { student: { role: "student" } },
 
   });
-  if (loading) return null;
+  const columns: ColumnDef<Student>[] = useMemo(() => getStudentTableColumns(), []);
+
+  if (loading) return (<LoadingSkeleton />);
+  // if (loading) return null;
 
   if (error) return `Error! ${error}`;
   return (
-    <DataTable columns={columns} data={data.students} />
+    <DataTable columns={columns} data={data.students}
+    />
   )
 }

@@ -8,13 +8,7 @@ import { ColumnDef } from "@tanstack/react-table";
 
 // TODO: find a wayt to infer the same IUser and ICourse type from mongoose model
 
-const DROP_COURSE = gql`
-mutation DropCourse($student: StudentInput, $course: CourseInput) {
-  dropCourse(student: $student, course: $course) {
-    _id
-  }
-}
-`;
+
 export type Course = {
   _id: string;
   course_name: string;
@@ -22,14 +16,17 @@ export type Course = {
   course_description: string;
   capacity: number;
 }
+interface AvailableCourseTablePropsCols {
+  onDrop: (course_id: string) => void;
+}
 
 
-
-export const columns: (studentId: string | undefined) => ColumnDef<Course>[] = (studentId: string | undefined) => [
-  // {
-  //   accessorKey: "_id",
-  //   header: "Course ID"
-  // },
+export const enrolledCourseTableColumns: ({onDrop}: AvailableCourseTablePropsCols) => ColumnDef<Course>[] = ({onDrop}) => [
+  {
+    accessorKey: "_id",
+    header: "Course ID",
+    enableHiding: true,
+  },
   {
     accessorKey: "course_code",
     header: "Course Code",
@@ -52,20 +49,9 @@ export const columns: (studentId: string | undefined) => ColumnDef<Course>[] = (
     id: "drop",
     header: "Drop",
     cell: ({ row }) => {
-
-      const [dropCourse, { data, loading, error }] = useMutation(DROP_COURSE, {
-        variables: {
-          student: {
-            _id: studentId
-          },
-          course: {
-            _id: row.original._id
-          }
-        },
-      });
-      console.log(row.original._id)
+      
       return (
-        <Button variant="destructive" disabled={loading} onClick={() => dropCourse()}>
+        <Button variant="destructive" onClick={() => onDrop(row.original._id)}>
           Drop
         </Button>
       );

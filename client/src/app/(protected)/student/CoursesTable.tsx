@@ -1,13 +1,11 @@
 "use client"
 import { Button } from "@/components/ui/button";
-import { DataTable } from "@/components/ui/data-table";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { gql, useQuery } from "@apollo/client";
-import AddCourseForm from "../admin/AddCourseForm";
-import { columns as availableCourses } from "./_availableCoursesTable/columns";
-import { columns as enrolledCourseCols } from "./_courseTable/columns";
+import AvailableCoursesTable from "./AvailableCoursesTable";
+import EnrolledCoursesTable from "./EnrolledCoursesTable";
 
 const GET_COURSES = gql`
 query Student($student: StudentInput) {
@@ -34,13 +32,14 @@ query Student($student: StudentInput) {
 export default function CoursesTable() {
 
   const student = useCurrentUser();
-  const { loading, error, data } = useQuery(GET_COURSES, {
+  const { loading, error, data, refetch: refetchCourses } = useQuery(GET_COURSES, {
     variables: { student: { _id: student?.id } }
   });
   console.log("🎥🎥🎥🎥🎥🎥🎥");
   console.log(data)
   //TODO: return a skeleton
   if (loading) return <p>Loading...</p>
+  if (error) return <p>Error: {error.message}</p>
   return (
 
     <Tabs defaultValue="students">
@@ -48,15 +47,16 @@ export default function CoursesTable() {
         <TabsTrigger value="students">Enrolled in</TabsTrigger>
         <TabsTrigger value="courses">Courses Available</TabsTrigger>
       </TabsList>
-      <TabsContent value="students" className="h-full"><DataTable columns={enrolledCourseCols(data.student._id)} data={data.student.courses} /></TabsContent>
+      <TabsContent value="students" className="h-full">
+        {/* <DataTable columns={enrolledCourseTableColumns(data.student._id)} data={data.student.courses} /> */}
+        <EnrolledCoursesTable refetchCourses={refetchCourses} data={data} />
+      </TabsContent>
 
-      <TabsContent value="courses" className="h-full">   <DataTable columns={availableCourses(data.student._id)} data={data.student.availableCourses} /></TabsContent>
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button className="absolute bottom-5 right-5 rounded-full">+</Button>
-        </DialogTrigger>
-        <AddCourseForm />
-      </Dialog>
+      <TabsContent value="courses" className="h-full">
+        {/* <DataTable columns={availableCourseTableColumns(data.student._id)} data={data.student.availableCourses} /> */}
+
+        <AvailableCoursesTable refetchCourses={refetchCourses} data={data} />
+      </TabsContent>
     </Tabs>
 
 

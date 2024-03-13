@@ -27,6 +27,7 @@ const courseSchema = new Schema<ICourse, CourseModel>({
     type: String,
     required: false
   },
+  
 })
 
 const Course: CourseModel = mongoose.models.Course ?? mongoose.model<CourseModel>('Course', courseSchema, 'courses');

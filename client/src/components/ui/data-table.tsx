@@ -16,39 +16,20 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Collapsible, CollapsibleContent } from "./collapsible"
-import { Student } from "@/app/(protected)/admin/_studentTable/columns"
+import { Student } from "@/app/(protected)/admin/studentTableColumns"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+  data: TData[],
+  innerTable?: React.ReactNode
 }
-
-
-// var CollapsibleRowContent = ({ row }: { row: Student }) => {
-//   // for each course in row.courses create a table row with course name and course
-//   return (
-//     row.courses.map((course) => (
-//       <TableRow key={course._id}>
-//         <TableCell className="pl-10">
-//           {course.course_code}
-//         </TableCell>
-//         <TableCell>
-//           {course.course_name}
-//         </TableCell>
-//         <TableCell>
-//           {course.course_description}
-//         </TableCell>
-//       </TableRow>
-//     )))
-// }
-
-
 
 
 export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+
   const table = useReactTable({
 
     data,
@@ -59,7 +40,7 @@ export function DataTable<TData, TValue>({
 
       columnVisibility: columns.reduce((acc: Record<string, boolean>, column: ColumnDef<TData, TValue>) => {
         console.log(JSON.stringify(column));
-        acc[(column as ColumnDef<TData, TValue> & {accessorKey: string}).accessorKey] = !column.enableHiding
+        acc[(column as ColumnDef<TData, TValue> & { accessorKey: string }).accessorKey] = !column.enableHiding
         return acc
       }, {}),
     },
@@ -88,7 +69,6 @@ export function DataTable<TData, TValue>({
         <TableBody>
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
-              <Collapsible key={row.id} asChild>
                 <>
                   <TableRow
                     key={row.id}
@@ -100,14 +80,8 @@ export function DataTable<TData, TValue>({
                       </TableCell>
                     ))}
                   </TableRow>
-                  {/* TODO: create an inner table */}
-                  <CollapsibleContent className="px-10" asChild>
-                    {/* TODO: create a table with the courses AND students? */}
-                    {/* <CollapsibleRowContent row={row.original} /> */}
-                  </CollapsibleContent>
                 </>
 
-              </Collapsible>
             ))
           ) : (
             <TableRow>

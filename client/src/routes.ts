@@ -34,3 +34,20 @@ export const apiAuthPrefix: string = "/api/auth";
  * @type {string}
  */
 export const DEFAULT_LOGIN_REDIRECT: string = "/admin";
+
+
+/**
+ * The routes for admin
+ */
+
+export const adminRoutes: string[] = [
+  "/admin",
+];
+
+/**
+ * The routes for students
+ */
+
+export const studentRoutes: string[] = [
+  "/student",
+]
