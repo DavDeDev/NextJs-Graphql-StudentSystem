@@ -3,12 +3,13 @@ import bcrypt from 'bcryptjs';
 import { ROLES, SALT_ROUNDS } from '@/lib/constants';
 
 
-export interface IUser extends Document{
+export interface IUser extends Document {
   email: string;
   name: string;
   password: string;
   role: (typeof ROLES)[number];
 }
+
 
 
 interface IUserMethods {

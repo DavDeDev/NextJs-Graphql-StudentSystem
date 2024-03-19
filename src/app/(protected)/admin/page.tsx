@@ -9,12 +9,22 @@ import { useCurrentRole } from "@/hooks/useCurrentRole";
 import { AlertCircle } from "lucide-react";
 import CoursesTable from "./CoursesTable";
 import StudentsTable from "./StudentsTable";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Home() {
   const role = useCurrentRole();
-
+  const route = useRouter();
 
   if (role !== "admin") {
+    useEffect(() => {
+      route.push("/student");
+    }, []);
+    // Redirect to /student if it's not an admin
+
+
+
+
     return (
       <div className="flex flex-col justify-center">
         <Alert variant="destructive">

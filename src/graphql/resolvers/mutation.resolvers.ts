@@ -2,7 +2,6 @@ import { Course, ICourse } from '@/models/course.model';
 import { Enrollment } from '@/models/enrollment.model';
 import { Resolver, Resolvers } from "@apollo/client";
 import { ContextValue } from '../apolloServer';
-import { Cagliostro } from 'next/font/google';
 
 
 const createCourse: Resolver = async (parent: any, args: any, context: ContextValue): Promise<ICourse> => {
@@ -16,7 +15,7 @@ const createCourse: Resolver = async (parent: any, args: any, context: ContextVa
 
 const deleteCourse: Resolver = async (parent: any, { course }, context: ContextValue) => {
   // Delete all the enrollments that reference the course
-  const deletedEnrollments = await Enrollment.deleteMany({ course_id: course._id });
+  await Enrollment.deleteMany({ course_id: course._id });
   const deletedCourse = await Course.findOneAndDelete(course);
   if (!deletedCourse) {
     throw new Error('Error');

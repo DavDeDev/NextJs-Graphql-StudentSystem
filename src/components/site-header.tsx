@@ -8,11 +8,15 @@ import Link from "next/link";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { UserAvatar } from "./ui/user-avatar";
 import { Badge } from "./ui/badge";
+import { NAVBAR_LINKS } from "@/lib/constants";
+import { usePathname } from "next/navigation";
 
 
 export function SiteHeader({ className }: React.HTMLAttributes<HTMLElement>) {
   const user = useCurrentUser()
   const session = useSession();
+  const pathname = usePathname();
+
 
   // create a function to handle the logout as server action
   const handleLogout = async () => {
@@ -22,8 +26,15 @@ export function SiteHeader({ className }: React.HTMLAttributes<HTMLElement>) {
   return (
     <header className={cn("flex justify-between px-10 h-16 sticky top-0 z-50 w-full  bg-background/60 backdrop-blur supports-[backdrop-filter]:bg-background/70 border-b-2", className)}>
       <Link href="/" className="flex items-center gap-2">Student System</Link>
-      <Link href="/admin" className="flex items-center gap-2">Admin</Link>
-      <Link href="/student" className="flex items-center gap-2">Student</Link>
+      {NAVBAR_LINKS.map(({ label, href }, index) => {
+        const isActive: boolean =
+          (pathname.includes(href) && href.length > 1) ||
+          pathname === href;
+        return (
+          <Link href={href} key={index} className={`${isActive && 'bg-secondary text-primary'} px-10 flex items-center gap-2`}>{label}</Link>)
+      })}
+
+
       {user && (<DropdownMenu>
         <DropdownMenuTrigger>
           <div className="flex gap-4 items-center">

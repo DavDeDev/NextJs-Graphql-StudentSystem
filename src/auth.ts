@@ -1,17 +1,13 @@
-import GitHub from "next-auth/providers/github"
 
-import type { NextAuthConfig } from "next-auth"
-import { authConfig } from "./auth.config"
-import { MongoClient } from "mongodb";
+import clientPromise from "@/lib/mongodb";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
+import type { DefaultSession } from "next-auth";
 import NextAuth from "next-auth";
 import { Adapter } from "next-auth/adapters";
-import clientPromise from "@/lib/mongodb";
-import { Cagliostro } from "next/font/google";
+import { authConfig } from "./auth.config";
 import { User } from "./models/user.model";
 
-import "next-auth"
-import mongoose from "mongoose";
+import "next-auth";
 import { connectToDB } from "./lib/database";
 
 
@@ -21,8 +17,15 @@ declare module "next-auth" {
     /** The user's postal address. */
     role: string
   }
-  interface Session {
-    role: string
+  // FIXME: Investigate why Google provider breaks with this ==> remove password field
+  // interface User Pick<IUser, Exclude<keyof IUser, keyof Document>>{
+  //   /** The user's postal address. */
+  //   role: string
+  // }
+  interface Session extends DefaultSession {
+    user:{
+      role: string
+    }
   }
 }
 // FIX: Not working
@@ -47,6 +50,8 @@ export const {
   },
   callbacks: {
     async signIn({ user, account }) {
+      await connectToDB();
+
       const existingUser = await User.findOne({ email: user.email });
       // // Allow OAuth without email verification
 
@@ -72,8 +77,8 @@ export const {
       if (!token.sub) return token;
       const existingUser = await User.findById(token.sub)
       if (!existingUser) return token;
+      
       token.role = existingUser.role
-
 
       return token;
     }
@@ -96,6 +101,6 @@ export const {
   ) as Adapter,
   session: { strategy: "jwt", },
   ...authConfig,
-  
+
 
 })

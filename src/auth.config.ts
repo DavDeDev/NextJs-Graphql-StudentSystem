@@ -1,11 +1,7 @@
 
 import { NextAuthConfig } from "next-auth";
-import { connectToDB } from "./lib/database";
-import { GoogleProfile } from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
-import Google from "next-auth/providers/google";
-import { LoginSchema } from "@/schemas/loginSchema";
-import { User } from "./models/user.model";
+import Google, { GoogleProfile } from "next-auth/providers/google";
 
 
 
@@ -60,7 +56,7 @@ export const authConfig: NextAuthConfig = {
        }
     })
     , Google({
-      profile: (profile: GoogleProfile) => {
+      profile: async (profile: GoogleProfile) => {
         return {
           ...profile,
           id: profile.sub,

@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { SessionProvider } from 'next-auth/react'
 import { auth } from '@/auth'
+import { Toaster } from "@/components/ui/sonner"
 
 import { ApolloProviders } from "@/providers/apollo";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
@@ -43,6 +44,7 @@ export default async function RootLayout({
               </main>
               <SiteFooter className="border-t-2  w-full" />
               <TailwindIndicator />
+              <Toaster />
             </ThemeProvider>
           </body>
         </html>

@@ -10,15 +10,15 @@ import NextAuth from "next-auth";
 // https://authjs.dev/guides/upgrade-to-v5#edge-compatibility
 const { auth: middleware } = NextAuth(authConfig)
 
-export default middleware( (req) => {
+export default middleware((req) => {
+  // FIXME: Get the role HERE
+  // README: https://github.com/nextauthjs/next-auth/issues/9836
   // get session role
   // if role is admin, redirect to /admin
   // if role is student, redirect to /student
-//   const session = await getSession();
 
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
-
 
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);

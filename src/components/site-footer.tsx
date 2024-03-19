@@ -18,9 +18,11 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
           </p>
         </div>
         <ModeToggle />
-        <Button variant="secondary">
-          <Link href='/api/graphql'>Apollo Server</Link>
-        </Button>
+        {process.env.NODE_ENV === "production" ? null : (
+          <Button variant="secondary">
+            <Link href='/api/graphql'>Apollo Server</Link>
+          </Button>
+        )}
       </div>
     </footer>
   )
