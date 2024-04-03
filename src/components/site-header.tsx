@@ -2,14 +2,15 @@
 
 import { logout } from "@/actions/logout";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { NAVBAR_LINKS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { toast } from "sonner";
+import { Badge } from "./ui/badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { UserAvatar } from "./ui/user-avatar";
-import { Badge } from "./ui/badge";
-import { NAVBAR_LINKS } from "@/lib/constants";
-import { usePathname } from "next/navigation";
 
 
 export function SiteHeader({ className }: React.HTMLAttributes<HTMLElement>) {
@@ -20,11 +21,12 @@ export function SiteHeader({ className }: React.HTMLAttributes<HTMLElement>) {
 
   // create a function to handle the logout as server action
   const handleLogout = async () => {
-    logout();
+    logout().then(() => (
+      toast.success("You have been logged out")))
   }
 
   return (
-    <header className={cn("flex justify-between px-10 h-16 sticky top-0 z-50 w-full  bg-background/60 backdrop-blur supports-[backdrop-filter]:bg-background/70 border-b-2", className)}>
+    <header className={cn("flex justify-between px-10 h-16 sticky top-0 z-50 w-full  bg-background/60 backdrop-blur  supports-[backdrop-filter]:bg-background/70 border-b-2 ", className)}>
       <Link href="/" className="flex items-center gap-2">Student System</Link>
       {NAVBAR_LINKS.map(({ label, href }, index) => {
         const isActive: boolean =

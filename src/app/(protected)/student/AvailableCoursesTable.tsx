@@ -5,10 +5,10 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useCallback, useMemo } from "react";
 import { Course } from "../admin/studentTableColumns";
 import { availableCourseTableColumns } from "./_availableCoursesTable/columns";
+import { toast } from "sonner";
 
 const ENROLL_COURSE = gql`
 mutation EnrollCourse($student: StudentInput, $course: CourseInput) {
-
   enrollStudent (student: $student, course: $course) {
     _id
   }
@@ -30,6 +30,9 @@ export default function AvailableCoursesTable({ data, refetchCourses }: { data: 
         student: { _id: studentId },
       }
     });
+    toast.success("Enrolled in course " + courseId, {
+      description: "Enrolled has been added to the course list",
+    })
   }, [])
 
 

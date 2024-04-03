@@ -14,11 +14,13 @@ import { ApolloCache, DefaultContext, FetchResult, MutationFunctionOptions, Muta
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
 import { Course } from "./studentTableColumns";
+import { toast } from "sonner"
+import { count } from "console";
 
 
 interface addCourseFormProps {
   // addCourse: ({variables}:OperationVariables) => Promise<FetchResult<Course>>;
-  addCourse: ({variables}:OperationVariables) => Promise<any>;
+  addCourse: ({ variables }: OperationVariables) => Promise<any>;
   state: MutationResult<any>;
 
 }
@@ -42,6 +44,9 @@ export default function AddCourseForm({ addCourse, state }: addCourseFormProps) 
   async function onSubmit(values: z.infer<typeof CourseSchema>) {
     addCourse({ variables: { course: values } })
       .then(() => {
+        toast.success(values.course_code + " has been added", {
+          description: values.course_name + " has been added to the course list",
+        })
         setOpen(false)
       }
       )

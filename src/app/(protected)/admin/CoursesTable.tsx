@@ -6,6 +6,7 @@ import { useCallback, useMemo } from "react";
 import LoadingSkeleton from "./LoadingSkeleton";
 import { Course, getCoursesTableColumns } from "./courseTableColumns";
 import AddCourseForm from "./AddCourseForm";
+import { toast } from "sonner";
 
 const GET_COURSES = gql`
 query Courses($course: CourseInput) {
@@ -60,6 +61,9 @@ export default function CoursesTable() {
 
   const onDelete = useCallback((id: string) => {
     deleteCourse({ variables: { course: { _id: id } } });
+    toast.success("Course has been deleted", {
+      description: "Course has been removed from the course list",
+    });
   }
     , []);
 

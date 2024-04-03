@@ -36,7 +36,7 @@ export default async function RootLayout({
               enableSystem
               disableTransitionOnChange
             >
-              <SiteHeader className=""
+              <SiteHeader
 
               />
               <main className="relative h-full w-full grow flex justify-center">
@@ -44,7 +44,7 @@ export default async function RootLayout({
               </main>
               <SiteFooter className="border-t-2  w-full" />
               <TailwindIndicator />
-              <Toaster />
+              <Toaster richColors  />
             </ThemeProvider>
           </body>
         </html>

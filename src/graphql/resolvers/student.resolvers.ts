@@ -1,7 +1,7 @@
 import { connectToDB } from '@/lib/database';
 import { Course, ICourse } from '@/models/course.model';
-import { Enrollment, IEnrollment } from '@/models/enrollment.model';
-import { IUser, User } from '@/models/user.model';
+import { Enrollment } from '@/models/enrollment.model';
+import { IUser } from '@/models/user.model';
 import { Resolver, Resolvers } from '@apollo/client';
 import { ObjectId } from 'mongoose';
 import { ContextValue } from '../apolloServer';

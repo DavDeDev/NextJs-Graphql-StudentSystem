@@ -2,12 +2,9 @@
 
 import { signIn } from "@/auth";
 import { connectToDB } from "@/lib/database";
-import { User, IUser } from "@/models/user.model";
+import { User } from "@/models/user.model";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { RegisterSchema } from "@/schemas/registerSchema";
-import { HydratedDocument } from "mongoose";
-import { Cagliostro } from "next/font/google";
-import { redirect } from "next/navigation";
 import { z } from "zod";
 
 

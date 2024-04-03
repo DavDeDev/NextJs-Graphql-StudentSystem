@@ -13,7 +13,7 @@ export default function Home() {
     useEffect(() => {
       console.log("component mounted")
       console.log("redirecting");
-      route.push("/student");
+      route.push("/admin");
     }, []);
     // Redirect to /student if it's not an admin
     return (

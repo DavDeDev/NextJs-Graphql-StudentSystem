@@ -1,11 +1,8 @@
-import { startServerAndCreateNextHandler } from '@as-integrations/next';
 import { ApolloServer } from '@apollo/server';
-import { gql } from 'graphql-tag';
-import { NextRequest } from 'next/server';
 
-import typeDefs from '@/graphql/typedefs/user.typedefs';
-import studentResolvers from '@/graphql/resolvers/student.resolvers';
 import courseResolvers from '@/graphql/resolvers/course.resolvers';
+import studentResolvers from '@/graphql/resolvers/student.resolvers';
+import typeDefs from '@/graphql/typedefs/user.typedefs';
 import mutationResolvers from './resolvers/mutation.resolvers';
 import queryResolvers from './resolvers/query.resolvers';
 

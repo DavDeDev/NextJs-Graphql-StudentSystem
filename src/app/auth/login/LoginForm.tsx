@@ -4,7 +4,10 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
+import { login } from "@/actions/login"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Form,
   FormControl,
@@ -15,14 +18,12 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { SocialButtons } from "@/components/ui/social-buttons"
 import { LoginSchema } from "@/schemas/loginSchema"
-import { useState, useTransition } from "react"
-import { login } from "@/actions/login"
-import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert"
 import { AlertCircle } from "lucide-react"
 import Link from "next/link"
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
-import { SocialButtons } from "@/components/ui/social-buttons"
+import { useTransition } from "react"
+import { toast } from "sonner"
 
 
 
@@ -52,6 +53,9 @@ export default function LoginForm() {
               ...data.error
             });
           }
+          toast.success("Login Successful", {
+            description: "You are now logged in"
+          })
           console.log("🔄️ [Client] Finished Transition");
 
         }).catch(() => {

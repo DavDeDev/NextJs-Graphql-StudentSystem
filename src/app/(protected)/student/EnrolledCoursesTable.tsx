@@ -51,6 +51,9 @@ export default function EnrolledCoursesTable({ data, refetchCourses }: { data: a
         student: { _id: studentId },
       }
     });
+    toast.success("Dropped from course", {
+      description: "You have been removed from the course list",
+    })
   }, [])
 
   const [changeSection] = useMutation(CHANGE_SECTION, {
@@ -67,7 +70,9 @@ export default function EnrolledCoursesTable({ data, refetchCourses }: { data: a
         section
       }
     }).then(() => {
-      return (<Toaster />)
+      toast.success("Section changed", {
+        description: "You have been moved to a different section",
+      })
     });
   }, [])
 

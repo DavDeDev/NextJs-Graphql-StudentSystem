@@ -17,7 +17,7 @@ export default function Home() {
         <div className="w-full flex justify-center gap-5">
           <Button>
             <Link href='/auth/login'>Login</Link>
-            </Button>
+          </Button>
         </div>
       </div>
     </div>
